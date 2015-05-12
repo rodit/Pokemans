@@ -1,5 +1,7 @@
 package com.rodit.pokemans.gui.component;
 
+import java.util.ArrayList;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -23,12 +25,14 @@ public class GuiComponent {
 	private int color = Color.BLACK;
 	private Gui parent;
 	private String background = "";
+	private ArrayList<GuiActionListener> listeners;
 	
 	public GuiComponent(){
-		
+		listeners = new ArrayList<GuiActionListener>();
 	}
 	
 	public GuiComponent(Gui parent){
+		this();
 		this.parent = parent;
 	}
 	
@@ -144,6 +148,18 @@ public class GuiComponent {
 		return ResourceCache.getImage(background);
 	}
 	
+	public ArrayList<GuiActionListener> getListeners(){
+		return listeners;
+	}
+	
+	public void addListener(GuiActionListener listener){
+		listeners.add(listener);
+	}
+	
+	public void removeListener(GuiActionListener listener){
+		listeners.remove(listeners);
+	}
+	
 	public void paint(Canvas canvas){
 		if(background != ""){
 			Bitmap bgbit = getBGBitmap();
@@ -160,5 +176,11 @@ public class GuiComponent {
 			paintCache = new Paint();
 		}
 		return paintCache;
+	}
+
+	public void input(int action) {
+		for(GuiActionListener listener : listeners){
+			listener.onTouch(action);
+		}
 	}
 }

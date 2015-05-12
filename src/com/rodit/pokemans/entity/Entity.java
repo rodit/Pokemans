@@ -5,7 +5,6 @@ import java.util.HashMap;
 import android.graphics.Bitmap;
 import android.graphics.RectF;
 
-import com.rodit.pokemans.Game;
 import com.rodit.pokemans.map.Map;
 import com.rodit.pokemans.resource.Animation;
 import com.rodit.pokemans.resource.IBoundable;
@@ -121,7 +120,7 @@ public class Entity implements IBoundable, IDrawable{
 
 	public Bitmap getBitmap() {
 		if(animations.size() == 0)return ResourceCache.getImage(resource);
-		return ResourceCache.getAnim(animations.get(state)).getFrame(Game.getTime());
+		return ResourceCache.getAnim(animations.get(state)).getFrame();
 	}
 	
 	public void update(){

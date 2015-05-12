@@ -2,6 +2,8 @@ package com.rodit.pokemans.pokeman;
 
 import java.util.Random;
 
+import android.annotation.SuppressLint;
+
 import com.rodit.pokemans.DataGrid;
 import com.rodit.pokemans.Game;
 import com.rodit.pokemans.pokeman.ability.Ability;
@@ -24,7 +26,8 @@ public class DamageCalc {
 			multi(parts[0], parts[1], Float.valueOf(parts[2]));
 		}
 	}
-
+	
+	@SuppressLint("DefaultLocale")
 	public static void multi(String type1, String type2, float multi) {
 		BattleType t1 = BattleType.valueOf(type1.toUpperCase());
 		BattleType t2 = BattleType.valueOf(type2.toUpperCase());
@@ -32,7 +35,7 @@ public class DamageCalc {
 	}
 
 	public static float calcDamage(Ability ability, Pokeman attacker, Pokeman defender) {
-		float dmg = ability.damage;
+		float dmg = (((2 * attacker.level + 10) / 250) * (attacker.stats.attack/attacker.stats.defence) * ability.damage + 2);
 		float f = random.nextFloat() + random.nextFloat();
 		while (f < 0.85f)
 			f += random.nextFloat();

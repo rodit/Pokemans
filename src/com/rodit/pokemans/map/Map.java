@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.rodit.pokemans.Game;
+import com.rodit.pokemans.Util;
 import com.rodit.pokemans.entity.Entity;
 
 public class Map {
@@ -16,6 +17,7 @@ public class Map {
 	private ArrayList<Entity> entities;
 	private float spawnX = 0;
 	private float spawnY = 0;
+	private String base64Img = "";
 	
 	public Map(){
 		
@@ -45,14 +47,22 @@ public class Map {
 		this.spawnY = spawnY;
 	}
 	
+	public String getBase64Img(){
+		return base64Img;
+	}
+	
+	public void setBase64Img(String img){
+		this.base64Img = img;
+	}
+	
 	private Bitmap bgCache = null;	
 	public Bitmap getBGImage(){
 		if(bgCache == null){
-			
+			bgCache = Util.Bitmap.fromBase64(base64Img);
 		}
 		return bgCache;
 	}
-
+	
 	public void render(Canvas canvas) {
 		canvas.drawBitmap(getBGImage(), Game.scrollX, Game.scrollY, null);
 		for(Entity e : entities){

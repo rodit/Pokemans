@@ -2,23 +2,29 @@ package com.rodit.pokemans.resource;
 
 import java.util.ArrayList;
 
-import com.rodit.pokemans.Game;
-
 import android.graphics.Bitmap;
+
+import com.rodit.pokemans.Game;
 
 public class Animation {
 
-	private float delay;
+	private float delay = 1;
 	private ArrayList<Bitmap> frames;
-	private int cFrame;
+	private int cFrame = 0;
 	
-	public Animation(){}
+	private int lastTime = 0;
 	
-	public void update(){
-		
+	public Animation(){
+		frames = new ArrayList<Bitmap>();
 	}
 	
-	public Bitmap getFrame(long time) {
+	public void update(){
+		if(Game.getTime() - lastTime <= delay){
+			cFrame++;
+		}
+	}
+	
+	public Bitmap getFrame() {
 		return frames.get(cFrame);
 	}
 }

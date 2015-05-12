@@ -10,6 +10,9 @@ public class ScriptParser {
 	public static Object parse(String script, VariableManager args){
 		VariableManager localVars = new VariableManager();
 		Object obj = null;
+		Script s = new Script();
+		s.body = script;
+		s.scanMethods();
 		return obj;
 	}
 

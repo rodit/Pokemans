@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.RectF;
+import android.view.MotionEvent;
 
 import com.rodit.pokemans.Game;
 import com.rodit.pokemans.gui.component.GuiComponent;
 import com.rodit.pokemans.resource.ResourceCache;
 
-public class Gui {
+public abstract class Gui {
 
 	private ArrayList<GuiComponent> components;
 	private boolean active = false;
@@ -18,7 +20,10 @@ public class Gui {
 	
 	public Gui(){
 		components = new ArrayList<GuiComponent>();
+		init();
 	}
+	
+	public abstract void init();
 	
 	public ArrayList<GuiComponent> getComponents(){
 		return components;
@@ -71,6 +76,15 @@ public class Gui {
 		}
 		for(GuiComponent comp : components){
 			if(comp.getVisible())comp.paint(canvas);
+		}
+	}
+
+	public void input(MotionEvent event) {
+		for(GuiComponent g : components){
+			if(!g.getVisible())continue;
+			RectF r = new RectF(event.getX(), event.getY(), 1, 1);
+			RectF r2 = new RectF(g.getX(), g.getY(), g.getWidth(), g.getHeight());
+			if(r.intersect(r2))g.input(event.getAction());
 		}
 	}
 }

@@ -36,6 +36,8 @@ public class GameThread extends Thread{
 				synchronized (surfaceHolder) {
 					this.gamePanel.onDraw(canvas);
 				}
+			} catch(Exception e){
+				e.printStackTrace();
 			} finally {
 				if (canvas != null) {
 					surfaceHolder.unlockCanvasAndPost(canvas);

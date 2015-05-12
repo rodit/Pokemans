@@ -14,8 +14,11 @@ import android.view.WindowManager;
 
 import com.rodit.pokemans.entity.EntityPlayer;
 import com.rodit.pokemans.gui.Gui;
+import com.rodit.pokemans.gui.guis.GuiMenu;
 import com.rodit.pokemans.map.Map;
+import com.rodit.pokemans.pokeman.PokemanRegistry;
 import com.rodit.pokemans.resource.ResourceCache;
+import com.rodit.pokemans.resource.Strings;
 import com.rodit.pokemans.script.VariableManager;
 
 public class Game {
@@ -32,6 +35,7 @@ public class Game {
 	public static EntityPlayer player;
 	public static Map map;
 	public static HashMap<String, Gui> guis = new HashMap<String, Gui>();
+	public static PokemanRegistry pokemans = new PokemanRegistry();
 	
 	public static float screenX = 0;
 	public static float screenY = 0;
@@ -41,6 +45,8 @@ public class Game {
 	public static VariableManager globals = new VariableManager();
 	
 	public static void init(){
+		Strings.init();
+		PokemanRegistry.init(pokemans);
 		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		Display display = wm.getDefaultDisplay();
 		Point size = new Point();
@@ -49,6 +55,8 @@ public class Game {
 		screenY = size.y;
 		screenRatioX = 1280 / screenX;
 		screenRatioY = 720 / screenY;
+		guis.put("menu", new GuiMenu());
+		guis.get("menu").setActive(true);
 		map = ResourceCache.getMap(startMap);
 		player = new EntityPlayer();
 		globals.addVar("player", player);
@@ -77,12 +85,14 @@ public class Game {
 
 	public static void update(){
 		delta = 1 / (System.currentTimeMillis() - lastTick);
-
 		lastTick = System.currentTimeMillis();
 	}
 
 	public static void render(Canvas canvas){
 		map.render(canvas);
+		for(Gui g : guis.values()){
+			if(g.getActive())g.draw(canvas);
+		}
 	}
 
 	public static byte[] readAsset(String file) {
