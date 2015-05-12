@@ -1,0 +1,9 @@
+<map name="Starting Map">
+	<bg base64=""/>
+	<collisions>
+		<collision x="0" y="0" width="100" height="10"/>
+	</collisions>
+	<entities>
+		<entity x="0" y="10"/>
+	</entities>
+</map>
