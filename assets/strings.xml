@@ -1,0 +1,13 @@
+<strings>
+	<locale name="eng">
+		<string name="company_name" value="Rodi Development"/>
+		<string name="game_name" value="Pokemans"/>
+		<string name="game_description" value="An android remake based on the classic Pokemon games!"/>
+		<string name="menu_title" value="Pokemans"/>
+		<string name="menu_button_start" value="New Game"/>
+		<string name="menu_button_continue" value="Continue Game"/>
+		<string name="menu_button_exit" value="Exit Game"/>
+		<string name="menu_button_save" value="Save Game"/>
+		<string name="menu_button_delete" value="Delete Save"/>
+	</locale>
+</strings>
