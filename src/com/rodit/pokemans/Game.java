@@ -98,16 +98,20 @@ public class Game {
 	public static byte[] readAsset(String file) {
 		byte[] buffer = null;
 		try {
-			InputStream stream = context.getAssets().open(file);
-
+			InputStream stream = getAssetStream(file);
+			
 			int size = stream.available();
 			buffer = new byte[size];
 			stream.read(buffer);
 			stream.close();
 		} catch (IOException e) {
-
+			GameLog.write("Error while reading asset " + file + ": " + e.getMessage());
 		}
 		return buffer;
+	}
+	
+	public static InputStream getAssetStream(String file) throws IOException{
+		return context.getAssets().open(file);
 	}
 	
 	public static Rect resizeRect(Rect rect){

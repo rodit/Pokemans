@@ -18,9 +18,12 @@ public class Map {
 	private float spawnX = 0;
 	private float spawnY = 0;
 	private String base64Img = "";
+	private ArrayList<RectF> collisions;
+	private String script = "";
 	
 	public Map(){
-		
+		entities = new ArrayList<Entity>();
+		collisions = new ArrayList<RectF>();
 	}
 	
 	public String getShowName(){
@@ -61,6 +64,22 @@ public class Map {
 			bgCache = Util.Bitmap.fromBase64(base64Img);
 		}
 		return bgCache;
+	}
+	
+	public ArrayList<RectF> getCollisions(){
+		return collisions;
+	}
+	
+	public void addCollision(RectF collision){
+		collisions.add(collision);
+	}
+
+	public String getScript(){
+		return script;
+	}
+	
+	public void setScript(String script) {
+		this.script = script;
 	}
 	
 	public void render(Canvas canvas) {

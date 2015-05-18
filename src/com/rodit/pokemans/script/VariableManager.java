@@ -29,14 +29,4 @@ public class VariableManager {
 		}
 		return objs;
 	}
-	
-	public static VariableManager create(String expression, VariableManager localVars, VariableManager args, Script script){
-		VariableManager mgr = new VariableManager();
-		int i = 0;
-		for(String s : expression.split(",")){
-			mgr.addVar("arg" + i, ScriptParser.evaluate(s, localVars, args, script));
-			i++;
-		}
-		return mgr;
-	}
 }
