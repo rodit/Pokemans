@@ -64,6 +64,7 @@ public class ScriptParser {
 			}
 		}catch(ScriptException e){
 			GameLog.write("Error while running script. Line: " + lno + ", " + e.getMessage());
+			GameLog.write("Script execution cancelled.");
 		}
 	}
 
