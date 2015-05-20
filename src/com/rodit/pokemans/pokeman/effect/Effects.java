@@ -2,13 +2,15 @@ package com.rodit.pokemans.pokeman.effect;
 
 import java.util.HashMap;
 
+import com.rodit.pokemans.Game;
+import com.rodit.pokemans.XmlDataReader;
+
 public class Effects {
 
 	private static HashMap<String, Effect> effects;
 	
 	public static void init(){
-		effects = new HashMap<String, Effect>();
-		//TODO add all effects
+		effects =  XmlDataReader.readEffects(new String(Game.readAsset("pokeman/effects.xml")));
 	}
 	
 	public static Effect get(String name){

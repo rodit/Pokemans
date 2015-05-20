@@ -1,5 +1,7 @@
 package com.rodit.pokemans.script;
 
+import java.lang.reflect.Method;
+
 import com.rodit.pokemans.Game;
 import com.rodit.pokemans.GameLog;
 import com.rodit.pokemans.script.exception.ScriptException;
@@ -9,7 +11,7 @@ public class ScriptParser {
 	public static void run(String script, VariableManager args){
 		int lno = 0;
 		try{
-			VariableManager locals = new VariableManager();
+			VariableManager locals = args.cloneManager();
 			boolean doIf = false;
 			boolean waitForEndIf = false;
 			for(String s : script.split(";")){
@@ -60,6 +62,19 @@ public class ScriptParser {
 						locals.delVar(parts[1].replace("$", ""));
 					else if(parts[1].startsWith("#"))
 						Game.globals.delVar(parts[1].replace("#", ""));
+				}else if(parts[0].equals("echo")){
+					GameLog.write(line.substring(5));
+				}else if(parts[0].equals("script")){
+					String sBody = new String(Game.readAsset("script/" + parts[1] + ".psc"));
+					Object[] sArgs = new Object[parts.length - 2];
+					for(int i = 2; i < parts.length; i++){
+						sArgs[i - 2] = getVal(parts[i], locals);
+					}
+					VariableManager vArgs = new VariableManager();
+					for(int i = 0; i < sArgs.length; i++){
+						vArgs.addVar("arg" + i, sArgs[i]);
+					}
+					ScriptParser.run(sBody, vArgs);
 				}
 			}
 		}catch(ScriptException e){
@@ -121,6 +136,34 @@ public class ScriptParser {
 				obj = obj.replace(",", "");
 				Object lo = getVal(obj, local);
 				o = (Double)o * (Double)lo;
+			}
+		}else if(expression.contains("->")){
+			String objName = expression.split("->")[0];
+			Class<?> c = null;
+			Object o2 = null;
+			if(objName.equals("_game")){
+				c = Game.class;
+			}else{
+				o2 = getVal(objName, local);
+				c = o2.getClass();
+			}
+			String mName = expression.split("->")[1].split("[")[0];
+			String[] args = expression.split("[")[1].split("]")[0].replace("[", "").replace("]", "").split(",");
+			Object[] argsO = new Object[args.length];
+			for(int i = 0; i < args.length; i++)
+				argsO[i] = getVal(args[i], local);
+			for(Method m : c.getMethods()){
+				if(m.getName().equals(mName)){
+					if(m.isAnnotationPresent(ScriptRef.class)){
+						try{
+							m.invoke(o2, argsO);
+						}catch (Exception e) {
+							throw new ScriptException("There was an exception while invoking the referenced method " + e.getMessage() + ".");
+						}
+					}else{
+						throw new ScriptException("The referenced method '" + mName + "' cannot be invoked through scripts.");
+					}
+				}
 			}
 		}
 		return o;

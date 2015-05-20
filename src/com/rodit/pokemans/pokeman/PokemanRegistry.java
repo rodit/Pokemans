@@ -1,13 +1,21 @@
 package com.rodit.pokemans.pokeman;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.rodit.pokemans.Game;
+import com.rodit.pokemans.XmlDataReader;
 
 public class PokemanRegistry {
 
 	public static void init(PokemanRegistry pokemans) {
-		String pokxml = new String(Game.readAsset("pokeman/pokemans.xml"));
+		try {
+			for(String pXmlFile : Game.getContext().getAssets().list("pokeman/pokemans")){
+				Game.pokemans.reg(XmlDataReader.readPokeman(new String(Game.readAsset("pokeman/pokemans/" + pXmlFile))));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private ArrayList<Pokeman> pokemans;

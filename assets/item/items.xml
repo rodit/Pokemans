@@ -1,0 +1,3 @@
+<items>
+	<item regName="item_null" name="Null Item" resource="undefined.png" description="Undefined item" canUse="true" useScript="echo Null Item;echo Null item test message"/>
+</items>

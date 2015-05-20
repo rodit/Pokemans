@@ -2,13 +2,15 @@ package com.rodit.pokemans.pokeman.ability;
 
 import java.util.HashMap;
 
+import com.rodit.pokemans.Game;
+import com.rodit.pokemans.XmlDataReader;
+
 public class Abilities {
 
 	private static HashMap<String, Ability> abilities;
 
 	public static void init(){
-		abilities = new HashMap<String, Ability>();
-		//TODO add all abilities
+		abilities = XmlDataReader.readAbilities(new String(Game.readAsset("pokeman/abilities.xml")));
 	}
 	
 	public static Ability get(String name){

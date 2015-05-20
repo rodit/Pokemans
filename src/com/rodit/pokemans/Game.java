@@ -19,6 +19,8 @@ import com.rodit.pokemans.map.Map;
 import com.rodit.pokemans.pokeman.PokemanRegistry;
 import com.rodit.pokemans.resource.ResourceCache;
 import com.rodit.pokemans.resource.Strings;
+import com.rodit.pokemans.script.ScriptParser;
+import com.rodit.pokemans.script.ScriptRef;
 import com.rodit.pokemans.script.VariableManager;
 
 public class Game {
@@ -62,7 +64,27 @@ public class Game {
 		globals.addVar("player", player);
 		globals.addVar("map", map);
 	}
-
+	
+	@ScriptRef
+	public static void setMap(Map m){
+		globals.addVar("lastmap", map);
+		map = m;
+		globals.addVar("map", map);
+		if(m.getScript() != null){
+			if(m.getScript() != "")ScriptParser.run(m.getScript(), new VariableManager());
+		}
+	}
+	
+	@ScriptRef
+	public static void setGui(String name, Gui g){
+		guis.put(name, g);
+	}
+	
+	@ScriptRef
+	public static void unsetGui(String name){
+		guis.remove(name);
+	}
+	
 	public static Context getContext(){
 		return context;
 	}
@@ -71,30 +93,34 @@ public class Game {
 		context = c;
 	}
 
+	@ScriptRef
 	public static float getDelta(){
 		return delta;
 	}
 
+	@ScriptRef
 	public static long getLastTick(){
 		return lastTick;
 	}
 
+	@ScriptRef
 	public static long getTime(){
 		return System.currentTimeMillis();
 	}
-
+	
 	public static void update(){
 		delta = 1 / (System.currentTimeMillis() - lastTick);
 		lastTick = System.currentTimeMillis();
 	}
 
 	public static void render(Canvas canvas){
-		map.render(canvas);
+		if(map != null)map.render(canvas);
 		for(Gui g : guis.values()){
 			if(g.getActive())g.draw(canvas);
 		}
 	}
 
+	@ScriptRef
 	public static byte[] readAsset(String file) {
 		byte[] buffer = null;
 		try {

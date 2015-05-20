@@ -6,8 +6,9 @@ public class PokemanStats {
 	public float specialAttack;
 	public float defence;
 	public float specialDefence;
-	public float hp;
 	public float maxHp;
 	
-	public PokemanStats(){}
+	public PokemanStats(){
+		attack = specialAttack = defence = specialDefence = maxHp = 10;
+	}
 }

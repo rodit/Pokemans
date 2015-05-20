@@ -10,6 +10,6 @@ public class GuiMenu extends Gui{
 	
 	@Override
 	public void init(){
-		setBackground("gui/background/menubg");
+		setBackground("gui/background/menubg.png");
 	}
 }

@@ -1,0 +1,3 @@
+<effects>
+	<effect id="poison" script="$trainer->hurt[$target,15]"/>
+</effects>

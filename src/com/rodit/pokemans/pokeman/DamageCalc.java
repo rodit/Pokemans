@@ -34,8 +34,8 @@ public class DamageCalc {
 		grid.add(t1, t2, multi);
 	}
 
-	public static float calcDamage(Ability ability, Pokeman attacker, Pokeman defender) {
-		float dmg = (((2 * attacker.level + 10) / 250) * (attacker.stats.attack/attacker.stats.defence) * ability.damage + 2);
+	public static float calcDamage(Ability ability, Pokeman attacker, Pokeman defender, int attackerLevel, int defenderLevel) {
+		float dmg = (((2 * attackerLevel + 10) / 250) * (attacker.stats.attack/attacker.stats.defence) * ability.damage + 2);
 		float f = random.nextFloat() + random.nextFloat();
 		while (f < 0.85f)
 			f += random.nextFloat();

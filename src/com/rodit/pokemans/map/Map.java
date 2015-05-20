@@ -10,6 +10,10 @@ import android.graphics.RectF;
 import com.rodit.pokemans.Game;
 import com.rodit.pokemans.Util;
 import com.rodit.pokemans.entity.Entity;
+import com.rodit.pokemans.entity.EntityTrainer;
+import com.rodit.pokemans.script.ScriptParser;
+import com.rodit.pokemans.script.ScriptRef;
+import com.rodit.pokemans.script.VariableManager;
 
 public class Map {
 
@@ -20,44 +24,44 @@ public class Map {
 	private String base64Img = "";
 	private ArrayList<RectF> collisions;
 	private String script = "";
-	
+
 	public Map(){
 		entities = new ArrayList<Entity>();
 		collisions = new ArrayList<RectF>();
 	}
-	
+
 	public String getShowName(){
 		return showName;
 	}
-	
+
 	public void setShowName(String showName){
 		this.showName = showName;
 	}
-	
+
 	public float getSpawnX(){
 		return spawnX;
 	}
-	
+
 	public void setSpawnX(float spawnX){
 		this.spawnX = spawnX;
 	}
-	
+
 	public float getSpawnY(){
 		return spawnY;
 	}
-	
+
 	public void setSpawnY(float spawnY){
 		this.spawnY = spawnY;
 	}
-	
+
 	public String getBase64Img(){
 		return base64Img;
 	}
-	
+
 	public void setBase64Img(String img){
 		this.base64Img = img;
 	}
-	
+
 	private Bitmap bgCache = null;	
 	public Bitmap getBGImage(){
 		if(bgCache == null){
@@ -65,11 +69,11 @@ public class Map {
 		}
 		return bgCache;
 	}
-	
+
 	public ArrayList<RectF> getCollisions(){
 		return collisions;
 	}
-	
+
 	public void addCollision(RectF collision){
 		collisions.add(collision);
 	}
@@ -77,11 +81,64 @@ public class Map {
 	public String getScript(){
 		return script;
 	}
-	
+
 	public void setScript(String script) {
 		this.script = script;
 	}
+
+	@ScriptRef
+	public Entity spawn(String name, String type){
+		return spawn(name, type, 0, 0);
+	}
+
+	@ScriptRef
+	public Entity spawn(String name, String type, float x, float y){
+		return spawn(name, type, x, y, "");
+	}
 	
+	@ScriptRef
+	public Entity spawn(String name, String type, float x, float y, String spawnScript){
+		return spawn(name, type, x, y, spawnScript, spawnScript);
+	}
+
+	@ScriptRef
+	public Entity spawn(String name, String type, float x, float y, String spawnScript, String collideScript){
+		switch(type){
+		case "entity":
+			Entity e = new Entity();
+			e.setName(name);
+			e.setX(x);
+			e.setY(y);
+			e.setScript(spawnScript);
+			entities.add(e);
+			e.setParent(this);
+			if(spawnScript != null){
+				if(spawnScript != ""){
+					VariableManager entVars = new VariableManager();
+					entVars.addVar("self", e);
+					ScriptParser.run(spawnScript, entVars);
+				}
+			}
+			return e;
+		case "trainer":
+			EntityTrainer trainer = new EntityTrainer();
+			trainer.setName(name);
+			trainer.setX(x);
+			trainer.setY(y);
+			entities.add(trainer);
+			trainer.setParent(this);
+			if(spawnScript != null){
+				if(spawnScript != ""){
+					VariableManager tVars = new VariableManager();
+					tVars.addVar("self", trainer);
+					ScriptParser.run(spawnScript, tVars);
+				}
+			}
+			return trainer;
+		}
+		return null;
+	}
+
 	public void render(Canvas canvas) {
 		canvas.drawBitmap(getBGImage(), Game.scrollX, Game.scrollY, null);
 		for(Entity e : entities){

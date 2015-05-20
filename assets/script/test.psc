@@ -10,3 +10,7 @@ end if;
 set $test append[$test,100,$test];
 
 destroy $test;
+
+var ent;
+set $ent #map->spawn[new_ent,trainer];
+

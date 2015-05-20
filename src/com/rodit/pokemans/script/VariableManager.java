@@ -29,4 +29,26 @@ public class VariableManager {
 		}
 		return objs;
 	}
+	
+	public HashMap<String, Object> getVars(){
+		return vars;
+	}
+	
+	public HashMap<String, Object> cloneVars(){
+		HashMap<String, Object> vars = new HashMap<String, Object>();
+		for(String s : vars.keySet()){
+			vars.put(s, vars.get(s));
+		}
+		return vars;
+	}
+	
+	public void setVars(HashMap<String, Object> vars){
+		this.vars = vars;
+	}
+	
+	public VariableManager cloneManager(){
+		VariableManager vm = new VariableManager();
+		vm.setVars(cloneVars());
+		return vm;
+	}
 }

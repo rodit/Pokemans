@@ -1,9 +1,9 @@
-<map name="Starting Map">
+<map name="Starting Map" script="">
 	<bg base64=""/>
 	<collisions>
 		<collision x="0" y="0" width="100" height="10"/>
 	</collisions>
 	<entities>
-		<entity x="0" y="10"/>
+		<entity name="new_ent" x="0" y="10" type="entity" script="" collide=""/>
 	</entities>
 </map>

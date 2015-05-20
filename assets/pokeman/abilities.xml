@@ -1,0 +1,4 @@
+<abilities>
+	<ability id="pound" name="Pound" damage="10" effectsSelf="" effectsTarget="" maxPP="20"/>
+	<ability id="smash" name="Smash" damage="12" effectsSelf="" effectsTarget="" maxPP="15"/>
+</abilities>

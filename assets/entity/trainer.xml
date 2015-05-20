@@ -1,0 +1,18 @@
+<entity name="" width="64" height="64" resource="trainer.png">
+	<animations>
+		<animation state="idle_down" anim="trainer_idle_down"/>
+		<animation state="idle_up" anim="trainer_idle_up"/>
+		<animation state="idle_left" anim="trainer_idle_left"/>
+		<animation state="idle_right" anim="trainer_idle_right"/>
+		<animation state="walk_down" anim="trainer_walk_down"/>
+		<animation state="walk_up" anim="trainer_walk_up"/>
+		<animation state="walk_left" anim="trainer_walk_left"/>
+		<animation state="walk_right" anim="trainer_walk_right"/>
+	</animations>
+	<pokemans>
+		<pokeman id="1" level="1" abilities="pound|smash|ground_pound|self_destruct"/>
+	</pokemans>
+	<inventory money="1000">
+		<item id="item_null" quantity="182"/>
+	</inventory>
+</entity>

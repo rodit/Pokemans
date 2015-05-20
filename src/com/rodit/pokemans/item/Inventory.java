@@ -28,4 +28,13 @@ public class Inventory {
 	public void consume(Item i, int count){
 		add(i, -count);
 	}
+	
+	public Item get(int index){
+		int in = 0;
+		for(Item i : items.keySet()){
+			if(in == index)return i;
+			in++;
+		}
+		return null;
+	}
 }

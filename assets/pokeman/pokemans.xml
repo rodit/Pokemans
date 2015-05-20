@@ -1,7 +1,0 @@
-<pokemans>
-	<pokeman id="0" name="Bulbasaur" types="grass,poison" level="1" icon="bulbasaur">
-		<animations>
-			<animation name="idle" src="bulbasaur_idle"/>
-		</animations>
-	</pokeman>
-</pokemans>

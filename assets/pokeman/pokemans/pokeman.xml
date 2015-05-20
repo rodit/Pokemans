@@ -1,0 +1,6 @@
+<pokeman id="0" name="Bulbasaur" type="grass" icon="bulbasaur.png" evolvesto="0" evolvesat="0" abilities="pound|smash">
+	<animations>
+		<animation name="idle" anim="bulbasaur_idle"/>
+	</animations>
+	<stats attack="10" specialAttack="10" defence="10" specialDefence="10" maxHp="100"/>
+</pokeman>
