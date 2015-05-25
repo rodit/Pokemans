@@ -3,6 +3,7 @@ package com.rodit.pokemans.pokeman.effect;
 import java.util.HashMap;
 
 import com.rodit.pokemans.Game;
+import com.rodit.pokemans.GameLog;
 import com.rodit.pokemans.XmlDataReader;
 
 public class Effects {
@@ -11,6 +12,7 @@ public class Effects {
 	
 	public static void init(){
 		effects =  XmlDataReader.readEffects(new String(Game.readAsset("pokeman/effects.xml")));
+		GameLog.write("Effects registry size: " + effects.size() + "");
 	}
 	
 	public static Effect get(String name){

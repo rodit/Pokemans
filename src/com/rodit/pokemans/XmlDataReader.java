@@ -12,10 +12,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import android.annotation.SuppressLint;
+import android.graphics.Paint.Align;
 import android.graphics.RectF;
 
 import com.rodit.pokemans.entity.Entity;
 import com.rodit.pokemans.entity.EntityTrainer;
+import com.rodit.pokemans.gui.Gui;
+import com.rodit.pokemans.gui.component.GuiComponent;
 import com.rodit.pokemans.item.Inventory;
 import com.rodit.pokemans.item.Item;
 import com.rodit.pokemans.item.Items;
@@ -76,6 +80,7 @@ public class XmlDataReader {
 		return e;
 	}
 	
+	@SuppressLint("DefaultLocale")
 	public static Pokeman readPokeman(String xml){
 		Pokeman p = new Pokeman();
 		Document doc = createDocument(xml);
@@ -88,6 +93,7 @@ public class XmlDataReader {
 		p.evolvesto = Integer.valueOf(pEl.getAttribute("evolvesto"));
 		String abilities = pEl.getAttribute("abilities");
 		for(String ability : abilities.split(Pattern.quote("|"))){
+			if(ability.isEmpty())continue;
 			p.defaultAbilities.add(Abilities.get(ability.replace("|", "")));
 		}
 		NodeList animNodes = doc.getElementsByTagName("animation");
@@ -119,9 +125,11 @@ public class XmlDataReader {
 			abl.name = el.getAttribute("name");
 			abl.damage = Float.valueOf(el.getAttribute("damage"));
 			for(String s : el.getAttribute("effectsSelf").split(Pattern.quote("|"))){
+				if(s.isEmpty())continue;
 				abl.effectsSelf.add(Effects.get(s.replace("|", "")));
 			}
 			for(String s : el.getAttribute("effectsTarget").split(Pattern.quote("|"))){
+				if(s.isEmpty())continue;
 				abl.effectsTarget.add(Effects.get(s.replace("|", "")));
 			}
 			abl.maxPP = Integer.valueOf(el.getAttribute("maxPP"));
@@ -168,19 +176,23 @@ public class XmlDataReader {
 		return items;
 	}
 
-	public static Map readMap(String file) {
+	public static Map readMap(String file){
 		String xml = new String(Game.readAsset(file));
 		Map m = new Map();
 		Document doc = createDocument(xml);
-		m.setShowName(((Element)doc.getElementsByTagName("map").item(0)).getAttribute("name"));
-		m.setScript(((Element)doc.getElementsByTagName("map").item(0)).getAttribute("script"));
+		Element mel = (Element)doc.getElementsByTagName("map").item(0);
+		m.setShowName(mel.getAttribute("name"));
+		m.setScript(mel.getAttribute("script"));
+		m.setSpawnX(Float.valueOf(mel.getAttribute("spawnX")));
+		m.setSpawnY(Float.valueOf(mel.getAttribute("spawnY")));
 		m.setBase64Img(((Element)doc.getElementsByTagName("bg").item(0)).getAttribute("base64"));
 		NodeList cNodes = doc.getElementsByTagName("collision");
 		for(int i = 0; i < cNodes.getLength(); i++){
 			Node n = cNodes.item(i);
 			if(n.getNodeType() != Node.ELEMENT_NODE)continue;
 			Element e = (Element)n;
-			m.addCollision(new RectF(Float.valueOf(e.getAttribute("x")), Float.valueOf(e.getAttribute("y")), Float.valueOf(e.getAttribute("width")), Float.valueOf(e.getAttribute("height"))));
+			float x = Float.valueOf(e.getAttribute("x")), y = Float.valueOf(e.getAttribute("y"));
+			m.addCollision(new RectF(x, y, x +  Float.valueOf(e.getAttribute("width")), y + Float.valueOf(e.getAttribute("height"))));
 		}
 		NodeList eNodes = doc.getElementsByTagName("entity");
 		for(int i = 0; i < eNodes.getLength(); i++){
@@ -191,18 +203,50 @@ public class XmlDataReader {
 		}
 		return m;
 	}
+	
+	@SuppressLint("DefaultLocale")
+	public static Gui readGui(String xml){
+		Gui g = new Gui();
+		Document doc = createDocument(xml);
+		Element el = (Element)doc.getElementsByTagName("gui").item(0);
+		g.regid = el.getAttribute("name");
+		g.setBackground(el.getAttribute("background"));
+		NodeList cNodes = el.getElementsByTagName("component");
+		for(int i = 0; i < cNodes.getLength(); i++){
+			Node n = cNodes.item(i);
+			if(n.getNodeType() != Node.ELEMENT_NODE)continue;
+			Element e = (Element)n;
+			GuiComponent comp = new GuiComponent();
+			comp.setID(e.getAttribute("id"));
+			comp.setText(e.getAttribute("text"));
+			comp.setFont(e.getAttribute("font"));
+			comp.setAlign(Align.valueOf(e.getAttribute("align").toUpperCase()));
+			comp.setFontSize(Float.valueOf(e.getAttribute("fontSize")));
+			comp.setX(Float.valueOf(e.getAttribute("x").replace("%centerX%", "" + Game.getScreenRectF().centerX())));
+			comp.setY(Float.valueOf(e.getAttribute("y").replace("%centerY%", "" + Game.getScreenRectF().centerY())));
+			comp.setWidth(Float.valueOf(e.getAttribute("width")));
+			comp.setHeight(Float.valueOf(e.getAttribute("height")));
+			comp.setColor(Integer.valueOf(e.getAttribute("color")));
+			comp.setBackground(e.getAttribute("background"));
+			comp.setScript(e.getAttribute("onClick"));
+			g.addComponent(comp);
+		}
+		return g;
+	}
 
 	private static DocumentBuilderFactory factory;
 	private static DocumentBuilder builder;
 
-	private static Document createDocument(String xml){
+	public static Document createDocument(String xml){
 		try{
 			if(factory == null){
 				factory = DocumentBuilderFactory.newInstance();
 			}
 			builder = factory.newDocumentBuilder();
 			return builder.parse(new ByteArrayInputStream(xml.getBytes()));
-		}catch(Exception e){}
+		}catch(Exception e){
+			GameLog.write("Error creatig document for xml. " + e.getMessage());
+		}
 		return null;
 	}
 }

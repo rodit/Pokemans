@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.rodit.pokemans.pokeman.effect.Effect;
 
 public class Ability {
-
+	
 	public String name;
 	public float damage;
 	public ArrayList<Effect> effectsSelf;

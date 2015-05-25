@@ -1,6 +1,7 @@
 package com.rodit.pokemans.script;
 
 import java.lang.reflect.Method;
+import java.util.regex.Pattern;
 
 import com.rodit.pokemans.Game;
 import com.rodit.pokemans.GameLog;
@@ -63,7 +64,7 @@ public class ScriptParser {
 					else if(parts[1].startsWith("#"))
 						Game.globals.delVar(parts[1].replace("#", ""));
 				}else if(parts[0].equals("echo")){
-					GameLog.write(line.substring(5));
+					GameLog.write(String.valueOf(getVal(line.substring(5), locals)));
 				}else if(parts[0].equals("script")){
 					String sBody = new String(Game.readAsset("script/" + parts[1] + ".psc"));
 					Object[] sArgs = new Object[parts.length - 2];
@@ -89,7 +90,38 @@ public class ScriptParser {
 
 	public static Object getVal(String expression, VariableManager local)throws ScriptException{
 		Object o = expression;
-		if(expression.startsWith("$")){
+		if(expression.contains("->")){
+			String objName = expression.split("->")[0];
+			Class<?> c = null;
+			Object o2 = null;
+			if(objName.equals("_game")){
+				c = Game.class;
+			}else{
+				o2 = getVal(objName, local);
+				c = o2.getClass();
+			}
+			String mName = expression.split("->")[1].split(Pattern.quote("["))[0];
+			String[] args = expression.split(Pattern.quote("["))[1].split(Pattern.quote("]"))[0].replace("[", "").replace("]", "").split(Pattern.quote(","));
+			Object[] argsO = new Object[args.length];
+			for(int i = 0; i < args.length; i++)
+				argsO[i] = getVal(args[i], local);
+			boolean wasExecuted = false;
+			for(Method m : c.getMethods()){
+				if(m.getName().equals(mName)){
+					if(m.isAnnotationPresent(ScriptRef.class)){
+						try{
+							o = m.invoke(o2, argsO);
+							wasExecuted = true;
+						}catch (Exception e){
+							throw new ScriptException("There was an exception while invoking the referenced method " + e.getMessage() + ".");
+						}
+					}else{
+						throw new ScriptException("The referenced method '" + mName + "' cannot be invoked through scripts.");
+					}
+				}
+			}
+			if(!wasExecuted)throw new ScriptException("The referened method " + mName + " cannot be invoked from this object.");
+		}else if(expression.startsWith("$")){
 			o = local.getVar(expression.replace("$", ""));
 			if(o == null)throw new ScriptException("Reference to undefined local vairable " + expression + ".");
 		}else if(expression.startsWith("#")){
@@ -136,34 +168,6 @@ public class ScriptParser {
 				obj = obj.replace(",", "");
 				Object lo = getVal(obj, local);
 				o = (Double)o * (Double)lo;
-			}
-		}else if(expression.contains("->")){
-			String objName = expression.split("->")[0];
-			Class<?> c = null;
-			Object o2 = null;
-			if(objName.equals("_game")){
-				c = Game.class;
-			}else{
-				o2 = getVal(objName, local);
-				c = o2.getClass();
-			}
-			String mName = expression.split("->")[1].split("[")[0];
-			String[] args = expression.split("[")[1].split("]")[0].replace("[", "").replace("]", "").split(",");
-			Object[] argsO = new Object[args.length];
-			for(int i = 0; i < args.length; i++)
-				argsO[i] = getVal(args[i], local);
-			for(Method m : c.getMethods()){
-				if(m.getName().equals(mName)){
-					if(m.isAnnotationPresent(ScriptRef.class)){
-						try{
-							m.invoke(o2, argsO);
-						}catch (Exception e) {
-							throw new ScriptException("There was an exception while invoking the referenced method " + e.getMessage() + ".");
-						}
-					}else{
-						throw new ScriptException("The referenced method '" + mName + "' cannot be invoked through scripts.");
-					}
-				}
 			}
 		}
 		return o;

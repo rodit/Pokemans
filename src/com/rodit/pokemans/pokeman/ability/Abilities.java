@@ -3,6 +3,7 @@ package com.rodit.pokemans.pokeman.ability;
 import java.util.HashMap;
 
 import com.rodit.pokemans.Game;
+import com.rodit.pokemans.GameLog;
 import com.rodit.pokemans.XmlDataReader;
 
 public class Abilities {
@@ -11,6 +12,7 @@ public class Abilities {
 
 	public static void init(){
 		abilities = XmlDataReader.readAbilities(new String(Game.readAsset("pokeman/abilities.xml")));
+		GameLog.write("Ability registry size: " + abilities.size() + "");
 	}
 	
 	public static Ability get(String name){

@@ -15,21 +15,21 @@ public class GameThread extends Thread{
 		this.surfaceHolder = surfaceHolder;
 		this.gamePanel = gamePanel;
 	}
-	
+
 	public boolean getRunning(){
 		return running;
 	}
-	
+
 	public void setRunning(boolean running){
 		this.running = running;
 	}
-	
+
 	@SuppressLint("WrongCall")
 	@Override
 	public void run(){
 		Canvas canvas;
-		while (running) {
-			Game.update();
+		while (running){
+			if(!Game.paused)Game.update();
 			canvas = null;
 			try {
 				canvas = this.surfaceHolder.lockCanvas();

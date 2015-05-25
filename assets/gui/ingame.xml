@@ -1,0 +1,6 @@
+<gui name="ingame" background="">
+	<component id="leftBtn" text="LEFT" font="default" align="center" fontSize="50" x="0" y="464" width="128" height="128" color="-1" background="gui/btnLeft.png" onClick="var move #player->moveLeft[a];"/>
+	<component id="rightBtn" text="RIGHT" font="default" align="center" fontSize="50" x="256" y="464" width="128" height="128" color="-1" background="gui/btnLeft.png" onClick="var move #player->moveRight[a];"/>
+	<component id="upBtn" text="UP" font="default" align="center" fontSize="50" x="128" y="336" width="128" height="128" color="-1" background="gui/btnLeft.png" onClick="var move #player->moveUp[a];"/>
+	<component id="downBtn" text="DOWN" font="default" align="center" fontSize="50" x="128" y="592" width="128" height="128" color="-1" background="gui/btnLeft.png" onClick="var move #player->moveDown[a];"/>
+</gui>

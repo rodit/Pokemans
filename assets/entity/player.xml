@@ -1,0 +1,23 @@
+<entity name="" width="84" height="84" resource="player.png" spawnScript="" collideScript="">
+	<animations>
+		<animation state="idle_down" anim="player_idle_down"/>
+		<animation state="idle_up" anim="player_idle_up"/>
+		<animation state="idle_left" anim="player_idle_left"/>
+		<animation state="idle_right" anim="player_idle_right"/>
+		<animation state="walk_down" anim="player_walk_down"/>
+		<animation state="walk_up" anim="player_walk_up"/>
+		<animation state="walk_left" anim="player_walk_left"/>
+		<animation state="walk_right" anim="player_walk_right"/>
+		<animation state="run_down" anim="player_run_down"/>
+		<animation state="run_up" anim="player_run_up"/>
+		<animation state="run_left" anim="player_run_left"/>
+		<animation state="run_right" anim="player_run_right"/>
+		<animation state="bike_down" anim="player_bike_down"/>
+		<animation state="bike_up" anim="player_bike_up"/>
+		<animation state="bike_left" anim="player_bike_left"/>
+		<animation state="bike_right" anim="player_bike_right"/>
+	</animations>
+	<inventory money="1000">
+		
+	</inventory>
+</entity>

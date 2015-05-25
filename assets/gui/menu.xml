@@ -1,0 +1,3 @@
+<gui name="menu" background="gui/background/menubg.png">
+	<component id="startBtn" text="Start Game" font="default" align="center" fontSize="20" x="%centerX%" y="%centerY%" width="100" height="50" color="-1" background="" onClick="var sMap _game->getStartMap[aa]; var a _game->setMapSc[$sMap]; var ab _game->setGui[ingame];"/>
+</gui>

@@ -1,5 +1,5 @@
 <entity name="" width="64" height="64" resource="trainer.png">
-	<animations>
+	<animaions>
 		<animation state="idle_down" anim="trainer_idle_down"/>
 		<animation state="idle_up" anim="trainer_idle_up"/>
 		<animation state="idle_left" anim="trainer_idle_left"/>

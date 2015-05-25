@@ -7,7 +7,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
-
+	
 	private GameThread thread;
 
 	public GamePanel(Context context) {
@@ -22,7 +22,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 		thread.setRunning(true);
 		thread.start();
 	}
-
+	
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 		
@@ -43,12 +43,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 	@Override
 	public boolean onTouchEvent(MotionEvent event){
 		GameInput.input(event);
-		return super.onTouchEvent(event);
+		return true;//return super.onTouchEvent(event);
 	}
 	
 	@Override
 	protected void onDraw(Canvas canvas){
 		Game.render(canvas);
 	}
-
 }

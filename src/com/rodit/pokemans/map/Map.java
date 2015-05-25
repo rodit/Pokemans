@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.rodit.pokemans.Game;
 import com.rodit.pokemans.Util;
 import com.rodit.pokemans.entity.Entity;
 import com.rodit.pokemans.entity.EntityTrainer;
+import com.rodit.pokemans.resource.IBoundable;
 import com.rodit.pokemans.script.ScriptParser;
 import com.rodit.pokemans.script.ScriptRef;
 import com.rodit.pokemans.script.VariableManager;
@@ -95,7 +95,7 @@ public class Map {
 	public Entity spawn(String name, String type, float x, float y){
 		return spawn(name, type, x, y, "");
 	}
-	
+
 	@ScriptRef
 	public Entity spawn(String name, String type, float x, float y, String spawnScript){
 		return spawn(name, type, x, y, spawnScript, spawnScript);
@@ -140,11 +140,47 @@ public class Map {
 	}
 
 	public void render(Canvas canvas) {
-		canvas.drawBitmap(getBGImage(), Game.scrollX, Game.scrollY, null);
+		canvas.drawBitmap(getBGImage(), 0, 0, null);
 		for(Entity e : entities){
+			if(e.isPlayer())continue;
 			Bitmap b = e.getBitmap();
-			canvas.drawBitmap(b, new Rect(0, 0, b.getWidth(), b.getHeight()), Game.resizeRect(new RectF(e.getX() + Game.scrollX, e.getY() + 
-					Game.scrollY, e.getWidth(), e.getHeight())), null);
+			canvas.drawBitmap(b, null, Game.resizeRect(new RectF(e.getX(), e.getY(), e.getX() + e.getWidth(), e.getY() + e.getHeight())), null);
+		}
+		canvas.drawBitmap(Game.player.getBitmap(), null, new RectF(Game.player.getX(), Game.player.getY(), Game.player.getX() + Game.player.getWidth(), Game.player.getY() + Game.player.getHeight()), null);
+	}
+
+	public Object getCollisionObject(IBoundable b) {
+		for(RectF rect : collisions){
+			if(RectF.intersects(rect, b.getCollisionBounds()) && rect != b)return rect;
+		}
+		for(Entity e : entities){
+			if(e.collides(b) && e != b)return e;
+		}
+		return null;
+	}
+
+	public Object getCollisionObject(RectF bounds) {
+		for(RectF rect : collisions){
+			if(RectF.intersects(rect, bounds) && rect != bounds)return rect;
+		}
+		for(Entity e : entities){
+			if(RectF.intersects(e.getBounds(), bounds))return e;
+		}
+		return null;
+	}
+
+	public void addEntity(Entity e){
+		e.setParent(this);
+		if(!entities.contains(e))entities.add(e);
+	}
+	
+	public ArrayList<Entity> getEntities() {
+		return entities;
+	}
+
+	public void update() {
+		for(Entity e : entities){
+			e.update();
 		}
 	}
 }

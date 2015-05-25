@@ -1,0 +1,31 @@
+<animations>
+	<animation name="player_idle_down" sheet="player/idle_down" delay="0.0" retainFrame="false" rows="1" columns="1"/>
+	<animation name="player_idle_up" sheet="player/idle_up" delay="0.0" retainFrame="false" rows="1" columns="1"/>
+	<animation name="player_idle_left" sheet="player/idle_left" delay="0.0" retainFrame="false" rows="1" columns="1"/>
+	<animation name="player_idle_right" sheet="player/idle_right" delay="0" retainFrame="false" rows="1" columns="1"/>
+	<animation name="player_walk_down" sheet="player/walk_down" delay="150" retainFrame="false" rows="1" columns="4"/>
+	<animation name="player_walk_up" sheet="player/walk_up" delay="150" retainFrame="false" rows="1" columns="4"/>
+	<animation name="player_walk_left" sheet="player/walk_left" delay="150" retainFrame="false" rows="1" columns="4"/>
+	<animation name="player_walk_right" sheet="player/walk_right" delay="150" retainFrame="false" rows="1" columns="4"/>
+	<animation name="player_run_down" sheet="player/run_down" delay="250" retainFrame="false" rows="1" columns="2"/>
+	<animation name="player_run_up" sheet="player/run_up" delay="250" retainFrame="false" rows="1" columns="2"/>
+	<animation name="player_run_left" sheet="player/run_left" delay="250" retainFrame="false" rows="1" columns="2"/>
+	<animation name="player_run_right" sheet="player/run_right" delay="250" retainFrame="false" rows="1" columns="2"/>
+	<animation name="player_run_down" sheet="player/bike_down" delay="250" retainFrame="false" rows="1" columns="2"/>
+	<animation name="player_run_up" sheet="player/bike_up" delay="250" retainFrame="false" rows="1" columns="2"/>
+	<animation name="player_run_left" sheet="player/bike_left" delay="250" retainFrame="false" rows="1" columns="2"/>
+	<animation name="player_run_right" sheet="player/bike_right" delay="250" retainFrame="false" rows="1" columns="2"/>
+	
+	<animation name="trainer_idle_down" sheet="trainer/idle_down" delay="0.0" retainFrame="false" rows="1" columns="1"/>
+	<animation name="trainer_idle_up" sheet="trainer/idle_up" delay="0.0" retainFrame="false" rows="1" columns="1"/>
+	<animation name="trainer_idle_left" sheet="trainer/idle_left" delay="0.0" retainFrame="false" rows="1" columns="1"/>
+	<animation name="trainer_idle_right" sheet="trainer/idle_right" delay="0.0" retainFrame="false" rows="1" columns="1"/>
+	<animation name="trainer_walk_down" sheet="trainer/walk_down" delay="250" retainFrame="false" rows="1" columns="2"/>
+	<animation name="trainer_walk_up" sheet="trainer/walk_up" delay="250" retainFrame="false" rows="1" columns="2"/>
+	<animation name="trainer_walk_left" sheet="trainer/walk_left" delay="250" retainFrame="false" rows="1" columns="2"/>
+	<animation name="trainer_walk_right" sheet="trainer/walk_right" delay="250" retainFrame="false" rows="1" columns="2"/>
+	<animation name="trainer_run_down" sheet="trainer/run_down" delay="250" retainFrame="false" rows="1" columns="2"/>
+	<animation name="trainer_run_up" sheet="trainer/run_up" delay="250" retainFrame="false" rows="1" columns="2"/>
+	<animation name="trainer_run_left" sheet="trainer/run_left" delay="250" retainFrame="false" rows="1" columns="2"/>
+	<animation name="trainer_run_right" sheet="trainer/run_right" delay="250" retainFrame="false" rows="1" columns="2"/>
+</animations>

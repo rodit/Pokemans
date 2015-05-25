@@ -16,6 +16,9 @@ public class EntityTrainer extends Entity {
 	
 	public EntityTrainer(){
 		super();
+		this.setName("trainer");
+		this.setState(MoveState.IDLE);
+		this.setDirection(Direction.DOWN);
 		inventory = new Inventory();
 		pokemans = new ArrayList<Pokeman>();
 		pokemanController = new PokemanController();
